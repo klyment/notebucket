@@ -1,0 +1,686 @@
+body {
+    background-color: $sidebar-list-color;
+}
+
+//Overall scrollbar
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 0.6rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    background: lighten($sidebar-background-color, 60%);
+    -webkit-box-shadow: inset 0 0 0.2rem lighten($sidebar-background-color, 40%);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: lighten($sidebar-background-color, 60%);
+}
+
+//Side bar design.
+#sidebar {
+    width: 10rem;
+    padding: 0;
+    margin: 0;
+    background-color: $sidebar-background-color;
+    color: $sidebar-list-color;
+    font-size: 0.8rem;
+    a {
+        color: $sidebar-list-color;
+        font-size: 0.8rem;
+        &.active {
+            font-weight: bold;
+            color: #fff;
+        }
+        &:hover {
+            color: smartscale($sidebar-list-color, 60%);
+        }
+    }
+    //scrollbar
+    overflow-y: auto;
+    /* Let's get this party started */
+    &::-webkit-scrollbar {
+        width: 0.6rem;
+    }
+    /* Track */
+    &::-webkit-scrollbar-track {
+        -webkit-border-radius: 0;
+        border-radius: 0;
+    }
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        background: lighten($sidebar-background-color, 20%);
+        -webkit-box-shadow: inset 0 0 0.2rem $sidebar-background-color;
+    }
+    &::-webkit-scrollbar-thumb:window-inactive {
+        background: lighten($sidebar-background-color, 20%);
+    }
+    //profile
+    .profile {
+        position: fixed;
+        z-index: 2;
+    }
+    .username {
+        text-align: center;
+        position: absolute;
+        height: 1.2rem;
+        top: 3.5rem;
+        background-color: rgba(51, 51, 51, 0.7);
+        width: 100%;
+        line-height: 1.2rem;
+    }
+    //section list
+    .section-list {
+        width: 100%;
+        margin: 1.2rem 0 !important;
+        //	border-bottom: 0.07rem solid lighten($sidebar-background-color,8%);
+        ul {
+            margin-bottom: 1rem;
+            li {
+                border: none !important;
+            }
+        }
+        header {
+            font-size: 0.5rem !important;
+            font-weight: bold !important;
+            margin-left: 0.95rem !important;
+        }
+    }
+    //board-list
+    .board-list {
+        margin-top: 6rem !important;
+        .board-settings {
+            float: right;
+            margin-top: 0.2rem;
+            margin-right: 0.55rem;
+        }
+    }
+    //color mark
+    .color-mark {
+        margin-bottom: 0rem;
+        ul li a {
+            padding-left: 2rem;
+        }
+        ul li a.allColor {
+            padding-left: 1rem;
+        }
+        .default-circle, .primary-circle, .secondary-circle, .success-circle, .alert-circle, .warning-circle {
+            width: 0.5rem;
+            height: 0.5rem;
+            background-color: smartscale(#fff, 15%);
+            position: absolute;
+            top: 1rem;
+            border-radius: 50%;
+            margin-left: 1rem;
+        }
+        .primary-circle {
+            background-color: $primary-color;
+        }
+        .secondary-circle {
+            background-color: $secondary-color;
+        }
+        .success-circle {
+            background-color: $success-color;
+        }
+        .alert-circle {
+            background-color: $alert-color;
+        }
+        .warning-circle {
+            background-color: $warning-color;
+        }
+    }
+
+}
+
+//end sidebar
+
+//Hide horizontal scroll bar
+div.overflow-hidden {
+    overflow-x: inherit;
+    //scrollbar
+    overflow-y: auto;
+    //nav-bar
+    .nav-bar {
+        -webkit-box-shadow: 0 0 0.5rem darken($sidebar-list-color, 30%);
+        height: 4.65rem !important;
+        z-index: 8;
+        position: fixed !important;
+        width: calc(100% - 10rem);
+        //This is amazing!!!
+        background-color: $body-background;
+        padding-top: 1rem;
+        .new-btn {
+            img {
+                vertical-align: baseline;
+                padding-right: 0.2rem;
+            }
+        }
+    }
+    .body-cards {
+        background: $sidebar-list-color;
+        padding-top: 6.5rem;
+        .edit-archive {
+            z-index: 3;
+            display: none;
+            padding:0;
+            position: absolute;
+            background-color: rgba($sidebar-background-color, 0.8);
+            span {
+                display: block;
+                text-align: center;
+                a img {
+                    margin: -0.2rem 0.5rem 0 0;
+                    width: initial !important;
+                }
+                a {
+                    color: $sidebar-list-color;
+                    padding-bottom: 0;
+                    margin-bottom: 0;
+                    transition: color 0.2s linear !important;
+                    padding-top: 0;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 45%;
+                    left: 0;
+                }
+                a:hover {
+                    color: #fff;
+                    transition: color 0.2s linear !important;
+                }
+            }
+        }
+        .task-card:hover .edit-archive{
+            display: block;
+        }
+    }
+}
+
+//end body frame
+
+@mixin card_color($color) {
+    $card-default: #fff;
+    background: $card-default;
+    color: smartscale($card-default, 65%);
+    border: rem-calc(1) solid smartscale($card-default, 2%);
+    .card-divider {
+        background: smartscale($color, 15%);
+        padding: $global-padding / 5;
+    }
+
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+//New task form
+
+//Remove gap around modal form
+.modal {
+    padding: 0 !important;
+}
+
+.add-task-btn {
+    float: right !important;
+    margin-right: 0 !important;
+}
+
+//Add some space above the edit task form
+.taskForm {
+    padding-top: $global-padding;
+}
+
+.editTaskForm, .taskForm {
+    z-index: 8 !important;
+    a.traskTaskBtn {
+        padding-top: 0.78rem;
+    }
+    a.edit-button-left {
+        float: left !important;
+    }
+    a.edit-button-right {
+        float: right !important;
+        margin-left: 1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+        color: darken(#fff, 60%);
+        transition: color 0.2s linear !important;
+        &:hover {
+            color: darken(#fff, 90%);
+            transition: color 0.2s linear !important;
+        }
+    }
+    a.primary {
+        color: $primary-color;
+        transition: color 0.2s linear !important;
+        &:hover {
+            color: darken($primary-color, 15%) !important;
+            transition: color 0.2s linear !important;
+        }
+    }
+    a.secondary {
+        color: $secondary-color;
+        transition: color 0.2s linear !important;
+        &:hover {
+            color: darken($secondary-color, 15%) !important;
+            transition: color 0.2s linear !important;
+        }
+    }
+    a.success {
+        color: $success-color;
+        transition: color 0.2s linear !important;
+        &:hover {
+            color: darken($success-color, 15%) !important;
+            transition: color 0.2s linear !important;
+        }
+    }
+    a.alert {
+        color: $alert-color;
+        transition: color 0.2s linear !important;
+        &:hover {
+            color: darken($alert-color, 15%) !important;
+            transition: color 0.2s linear !important;
+        }
+    }
+    a.warning {
+        color: $warning-color;
+        transition: color 0.2s linear !important;
+        &:hover {
+            color: darken($warning-color, 15%) !important;
+            transition: color 0.2s linear !important;
+        }
+    }
+}
+
+//Task search input field
+.task-search {
+    //display: none;
+    margin-right: 1rem;
+    .inline-label {
+        margin-top: 0;
+    }
+    input {
+        padding: 0.55em 1em;
+    }
+    .search-box {
+        border-radius: 1.5rem;
+        padding-left: 3rem;
+        background-color: $sidebar-list-color;
+    }
+    .search-icon {
+        position: absolute;
+    }
+
+}
+
+//Task panel
+.browsebytag {
+    margin-right: 0rem !important;
+    padding-right: 2rem !important;
+    &:after {
+        @include css-triangle($triangle-size: 0.38rem, $triangle-color: inherit, $triangle-direction: left);
+        position: absolute;
+        right: 0;
+        top: 1.82rem;
+        margin-right: 1.5rem;
+    }
+}
+
+// Card modification
+//Allow overflow to show action sheet
+.task-card {
+    overflow: visible !important;
+    margin-bottom: 1rem !important;
+    //Allow long words to be wrapped in paragrah
+    p {
+        word-wrap: break-word;
+    }
+    //Card default color
+    $card-default: #fff;
+    label {
+        color: inherit;
+    }
+    .card-section a {
+        text-decoration: none;
+        cursor: pointer;
+        display: block;
+        &.expand {
+            color: darken($card-default, 90%);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+    }
+    @include card-container($background: $card-default, 
+        $color: smartscale($card-default, 65%), 
+        $border: rem-calc(1) solid smartscale($card-default, 2%), 
+        $radius: $global-radius, 
+        $shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 
+        $padding: $global-padding, 
+        $margin: 2rem);
+
+    .card-divider {
+        @include card-divider($background: smartscale($card-default, 15%), $padding: $global-padding / 5);
+    }
+    .card-section {
+        @include card-section($padding: $global-padding);
+        padding-bottom: 0.6rem;
+    }
+
+    &.primary {
+        @include card_color($primary-color);
+    }
+    &.secondary {
+        @include card_color($secondary-color);
+    }
+    &.success {
+        @include card_color($success-color);
+    }
+    &.alert {
+        @include card_color($alert-color);
+    }
+    &.warning {
+        @include card_color($warning-color);
+    }
+    &.complete {
+        position: relative;
+        div.card-title, p {
+            text-decoration: line-through;
+            cursor: pointer;
+        }
+        &:before {
+            content: "";
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            bottom: -1px;
+            left: -1px;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: 2;
+            pointer-events: none;
+        }
+    }
+    &.incomplete {
+        // text-decoration: none !important;
+   
+    }
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    .card-title {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+    }
+    .card-body {
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+        cursor: pointer;
+    }
+    .mark-group {
+        // display: inline-block;
+        margin-left: 0rem !important;
+        margin-top: -0.3rem;
+        .grid-block {
+            padding-left: 1.2rem;
+        }
+        .color-mark-item {
+            // float:left;
+            border-radius: 50%;
+            width: 1rem;
+            height: 1rem;
+            padding: 0;
+            // margin-right:1rem;
+       
+        }
+        .color-mark-item:last-child {
+            // margin-right:0rem;
+       
+        }
+    }
+
+    &:hover {
+        // border:none !important;
+        // background-color: rgba(51,51,51,0.5);
+        // -webkit-transition:background-color 0.2s linear !important;
+        // -o-transition:background-color 0.2s linear !important;
+        // -moz-transition:background-color 0.2s linear !important;
+        // transition:background-color 0.2s linear !important;
+   
+    }
+}
+
+//end task card
+
+//custom buttons
+.grey {
+    @include button-style($background: lighten($sidebar-background-color, 35%), $background-hover: auto, $color: #fff, $style: solid);
+    border: rem-calc(0.5) solid lighten($sidebar-background-color, 20%) !important;
+}
+
+.transparent {
+    @include button-style($background: transparent, $background-hover: auto, $color: #eee, $style: solid);
+    border: none !important;
+}
+
+.white {
+    @include button-style($background: #fff, $background-hover: auto, $color: #333, $style: solid);
+}
+
+//Custom overlay
+#editTaskForm {
+    &.modal-overlay {
+        background-color: rgba(#333, 0.3) !important;
+    }
+}
+
+.title-bar.dark {
+    background: $sidebar-background-color !important;
+    border-bottom: none !important;
+    padding: 1rem !important;
+}
+
+//Custom form controls
+input.styleInput, select, textarea {
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    padding-left: 0 !important;
+    background-color: #FFF !important;
+}
+
+textarea {
+    min-height: 6rem !important;
+    resize: none !important;
+    line-height: 1.3rem !important;
+}
+
+//style color marks selection
+input[type="radio"] {
+    display: block !important;
+    margin-left: -999rem;
+}
+
+label.colorMark {
+    color: $primary-color !important;
+    font-size: 1rem !important;
+    flex: 1 0 auto;
+}
+
+label.colorMark span {
+    display: inline-block !important;
+    width: 1rem !important;
+    height: 1rem !important;
+    margin-top: -0.5em !important;
+    vertical-align: middle !important;
+    cursor: pointer !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+}
+
+label.colorMark {
+    span.colorGrey {
+        background-color: smartscale(#fff, 8%) !important;
+    }
+    span.colorLightBlue {
+        background-color: lighten($primary-color, 30%) !important;
+    }
+    span.colorDarkBlue {
+        background-color: lighten($secondary-color, 30%) !important;
+    }
+    span.colorGreen {
+        background-color: lighten($success-color, 30%) !important;
+    }
+    span.colorPurple {
+        background-color: lighten($alert-color, 30%) !important;
+    }
+    span.colorRed {
+        background-color: lighten($warning-color, 30%) !important;
+    }
+}
+
+input[type="radio"]:checked {
+    & + span.colorGrey {
+        background-color: smartscale(#fff, 40%) !important;
+    }
+    & + span.colorLightBlue {
+        background-color: $primary-color !important;
+    }
+    & + span.colorDarkBlue {
+        background-color: $secondary-color !important;
+    }
+    & + span.colorGreen {
+        background-color: $success-color !important;
+    }
+    & + span.colorPurple {
+        background-color: $alert-color !important;
+    }
+    & + span.colorRed {
+        background-color: $warning-color !important;
+    }
+}
+
+input[type="radio"] + span,
+input[type="radio"]:checked + span {
+    -webkit-transition: background-color 0.4s linear !important;
+    -o-transition: background-color 0.4s linear !important;
+    -moz-transition: background-color 0.4s linear !important;
+    transition: background-color 0.4s linear !important;
+}
+
+/*Change boards*/
+.changeBoard {
+    .boardManagement {
+        background-color: $sidebar-background-color;
+        padding: 1rem;
+        color: #fff;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    input.editBoard {
+        float: left !important;
+        width: 75%;
+        margin-right: 1rem;
+        margin-left: 1.5rem;
+    }
+    input.newBoard {
+        width: 92%;
+    }
+    a > img {
+        margin-right: 0.3rem;
+        vertical-align: middle;
+        margin-top: -0.15rem;
+    }
+    .done a {
+        color: darken(#fff, 60%);
+        margin: 1rem 2rem 1rem 0;
+        font-weight: bold;
+        transition: color 0.2s linear !important;
+        &:hover {
+            color: darken(#fff, 80%);
+            transition: color 0.2s linear !important;
+        }
+    }
+}
+
+#add-actionsheet {
+    div.action-sheet {
+        width: 9.5rem !important;
+    }
+    li:first-child > a {
+        border-top: 0;
+    }
+}
+
+.displayBlock {
+    display: block !important;
+}
+
+.displayNone {
+    display: none !important;
+}
+
+.emptyHint {
+    display: none;
+    margin-left: 1.5rem;
+    color: $warning-color;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.emptyHintNewTask {
+    margin-left: 0rem;
+}
+
+// mobile page notification
+.mobile-noti{
+    text-align: center;
+    margin-top: 2rem;
+    line-height: 1.5rem;
+}
+
+//utilize navbar on small screens
+@media screen and (max-width:639px){
+    .task-search {
+        position: absolute;
+        left: 0;
+        margin-left: 0.9rem;
+        margin-right: 1rem;
+        top: 4.5rem;
+    }
+    a.nav-button{
+        max-width: 6.4rem;
+        position: absolute;
+        right: 0;
+
+    }
+    a.nav-button-setting{
+        right:2.5rem;
+    }
+    div.overflow-hidden .nav-bar{
+        // height: 7.65rem !important;
+    }
+    div.overflow-hidden .body-cards{
+        // padding-top:9rem;
+    }
+
+    #add-actionsheet div.action-sheet {
+        width: 100% !important;
+    }   
+    
+}

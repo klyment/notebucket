@@ -1,0 +1,248 @@
+---
+name: home
+url: /
+animationIn: fadeIn
+controller: TasksController
+---
+<div class="grid-block collapse" id="main">
+	<div position="left" id="sidebar" class="medium-grid-block collapse shrink vertical">
+		<!-- <div ng-include="" src="'partials/sidebar.html'"></div> -->
+		<div> <!-- start sidebar frame -->
+		<div class="grid-content collapse shrink hide-for-medium">
+			<!-- <a href="" class="secondary button expand" zf-close>Close</a> -->
+			</div> <!-- end grid-content -->
+			<div class="grid-content collapse">
+				<section class="profile">
+					<img src="../assets/img/gravatar.png">
+					<div class="username">Klyment</div>
+				</section>
+				<section class="block-list section-list board-list">
+					<ul>
+						<li class="clickedItem"><a class="active" ng-click="query = '';showcolor='';showboard=''; markAsActive($event); defaultTaskBoard(board.name)">All Notes</a>
+					</li>
+					<header>Buckets
+					</header>
+					<li class="clickedItem" ng-repeat="board in allBoards | filter:{status:'unarchived'} | orderBy:'name' track by $index" >
+						<a ng-click="$parent.showboard = board.name; markAsActive($event); defaultTaskBoard(board.name)" class="">{{board.name}}</a>
+					</li>
+				</ul>
+			</section>
+			<section class="block-list section-list color-mark">
+			<header>marks</header>
+			<ul>
+				<li><a class="allColor" ng-click="showcolor = '';">All Color</a></li>
+				<li ><div class="primary-circle"></div><a ng-click="showcolor = 'primary'; ">Light Blue</a></li>
+				<li ><div class="secondary-circle"></div><a  ng-click="showcolor = 'secondary'; ">Dark Blue</a></li>
+				<li ><div class="success-circle"></div><a  ng-click="showcolor = 'success'; ">Green</a></li>
+				<li ><div class="alert-circle"></div><a  ng-click="showcolor = 'alert'; ">Purple</a></li>
+				<li ><div class="warning-circle"></div><a  ng-click="showcolor = 'warning'; ">Red</a></li>
+			</ul>
+		</section>
+		</div> <!-- end grid-content -->
+		</div> <!--end sidebar frame-->
+	</div> <!-- end sidebar-->
+	<div class="grid-content overflow-hidden">
+			<div class="grid-block nav-bar">
+				<!-- start of new task button -->
+				<div class="grid-content medium-3 small-9">
+					<zf-action-sheet id="add-actionsheet" class="float-left">
+					<zf-as-button><a href="" class="medium warning button new-btn">&nbsp;&nbsp;&nbsp;<img src="../assets/img/add.png" alt="">Add&nbsp;&nbsp;&nbsp;</a></zf-as-button>
+					<zf-as-content position="bottom">
+					<ul>
+						<li><a zf-close="" zf-open="newTaskForm" >Note</a> </li>
+						<li><a zf-close="" zf-open="newBoardModal" >Bucket</a> </li>
+					</ul>
+					</zf-as-content>
+					</zf-action-sheet>
+					<!-- <a href="" class="grey button float-left new-btn"  content="Notification example" color="warning" autoclose="3000" zf-notify="main-notifications" >Feedback</a> -->
+					<a href="" class="grey button float-left new-btn show-for-large" style="margin-left:1rem;" zf-open="feedbackForm">Feedback</a>
+				</div>
+				<!-- end of new task button -->
+				<div class="grid-content medium-9 small-3">
+
+					<a class="grey button float-right nav-button nav-button-setting show-for-medium"><img src="../assets/img/setting.png" alt="" zf-open="boardModal" ></a>
+					
+					<div ng-show = "showstatus == 'incomplete';">
+						<a ng-click="showstatus = 'complete'; setLayer();" class="grey button float-right nav-button"><img src="../assets/img/archive.png" alt=""></a>
+					</div>
+					<div ng-show = "showstatus == 'complete';">
+						<a ng-click="showstatus = 'incomplete'; setLayer();" class="grey button float-right nav-button">Hide Trashes</a>
+					</div>
+					<!-- start of filter bar -->
+					<label class="float-right task-search show-for-medium">
+						<a class="medium button float-right grey search-icon"><img src="../assets/img/search.png" alt=""></a>
+						<span class="inline-label">
+							<input type="search" ng-model="query" placeholder="Type & search" class="search-box">
+						</span>
+					</label>
+					<!-- end of filter bar -->
+				</div>
+			</div>
+			
+			<!-- start of feedback modal -->
+			<div zf-modal="" id="feedbackForm" overlay-close="false" class="dialog">
+				<div class="grid-block vertical">
+					<div class="title-bar dark">
+						<div class="left title">Feedback</div>
+					</div>
+					<div class="grid-content">
+						<form name="feedback" class="taskForm">
+							<input class="styleInput" ng-model="feedback.guest" type="text" placeholder="May I know your name?">
+							<textarea ng-model="feedback.content" placeholder="Your opinions"></textarea>
+							<span class="emptyHint emptyHintfeedback">Babe,please say something.</span>
+							<p>
+								<a class="edit-button-right" zf-close="" ng-click="SendFeedback(feedback.guest, feedback.content); feedback = '';">ADD</a>
+								<a class="edit-button-right" href="" zf-close="">DISCARD</a>
+							</p>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- end of feedback modal -->
+
+			<!-- start of the modal -->
+			<div zf-modal="" id="newTaskForm" overlay-close="false" class="dialog">
+				<div class="grid-block vertical">
+					<div class="title-bar dark">
+						<div class="left title">New Note</div>
+					</div>
+					<div class="grid-content">
+						<form name="newTask" class="taskForm">
+							<input class="styleInput" ng-model="newTask.taskTitle" type="text" placeholder="Note Title">
+							<select name="taskBoard" id="" ng-model="taskBoard" ng-options="board.name for board in allBoards track by board.name">
+								<!-- 	This is important mark -->
+							</select>
+							<textarea ng-model="newTask.taskBody" placeholder="Note Description"></textarea>
+							<span class="emptyHint emptyHintNewTask">Note body cannot be empty</span>
+							<p>
+								<a class="edit-button-right" zf-close="" ng-click="CreateTask(newTask.taskTitle, newTask.taskBody, taskBoard.name); newTask = '';">ADD</a>
+								<a class="edit-button-right" href="" zf-close="">DISCARD</a>
+							</p>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- end of newform modal -->
+			<!--Change boards-->
+			<div zf-modal="" id="boardModal" overlay-close="false" class="dialog">
+				<form name="changeBoard" class="changeBoard">
+					<div class="boardManagement">Bucket Management</div>
+					<!-- edit board -->
+					<div class="manageBoard" ng-repeat="board in allBoards track by board.name">
+						<input class="styleInput editBoard" type="text"  value="{{board.name}}" ng-model="board.name"  ng-change="UpdateBoard(board.name,'{{board.name}}');">
+						<div ng-show="board.status == 'unarchived';" >
+							<a href="#" class="warning button" ng-click="ArchiveBoard(board.name);"><img src="../assets/img/archive.png" alt="">Trash</a>
+						</div>
+						<div ng-show="board.status == 'archived';" >
+							<a href="#" class="warning button" ng-click="UnarchiveBoard(board.name);"><img src="../assets/img/open.png" alt="">Restore</a>
+						</div>
+						<span class="emptyHint">Bucket name cannot be empty</span>
+					</div>
+					<div class="done">
+						<a href="" zf-close='' class="float-right">DONE</a>
+					</div>
+					<!-- end of edit board -->
+				</form>
+			</div>
+			<!-- end of boardmodal -->
+			<!--Change boards-->
+			<div zf-modal="" id="newBoardModal" overlay-close="false" class="dialog">
+				<form name="addNewBoard" class="changeBoard">
+					<div class="boardManagement">New Board</div>
+					<div class="createBoard">
+						<input class="styleInput editBoard newBoard" type="text" ng-model="newBoard" placeholder="New board name">
+						<span class="emptyHint">Bucket name cannot be empty</span>
+					</div>
+					<div class="done">
+						<a href="#" class="float-right" ng-click="CreateBoard(newBoard); newBoard='';" zf-close="">ADD</a>
+						<a href="#" class="float-right" ng-click="newBoard=''" zf-close="">DISCARD</a>
+					</div>
+				</form>
+			</div>
+			<!-- end of boardmodal -->
+			<div class="grid-block body-cards" >
+				<div class="fadeIn fadeOut grid-content large-2 medium-4 small-12" ng-repeat="task in tasks | filter:query | filter:showstatus | filter:showcolor | filter:showboard | orderBy:'-id' track by $index">
+					<!-- Start of cards -->
+
+					<div class="card task-card" ng-class="[task.color,task.status]" id="{{task.id}}">
+						<div class="edit-archive grid-content" id="layer{{task.id}}">
+							<div class="edit-button" ng-show="editMode == false">
+								<span ng-show="task.status=='incomplete'" class="cardActionBtn">
+									<a id="button{{task.id}}" ng-click=" editMode = true;" class="transparent button"><img src="../assets/img/edit.png" alt="" >Edit</a>
+								</span>
+								<span ng-show="task.status=='complete'" class="cardActionBtn">
+									<a id="button2{{task.id}}" ng-click=" SetTaskStatus(task.id,'incomplete');" class="transparent button"><img src="../assets/img/open.png" alt="">Restore</a>
+								</span>
+							</div>
+						</div>	
+						<div class="card-divider">
+						</div>
+						<div class="card-section">
+							<div ng-show="editMode == false">
+								<div class="card-title">{{task.title}}</div>
+								<!-- <div class="card-board">{{task.board}}</div> -->
+								<!-- <div ng-show="task.body.length < 10000"> -->
+								<p class="card-body">{{task.body}}</p>
+								<!-- </div> -->
+								<!-- Hide descriptions that breach 100 characters  -->
+								<!-- 							<div ng-show="task.body.length >= 10000">
+									<div ng-hide="expanded == true">
+										<p class="card-body">{{task.body | limitTo:10000}}&hellip;
+										</p>
+										<a class="expand" ng-click="expanded = true">Show All &raquo;</a>
+									</div>
+									<div ng-show="expanded == true">
+										<p class="card-body">{{task.body}}
+										</p>
+										<a class="expand" ng-click="expanded = false">&laquo; Show Less</a>
+									</div>
+								</div> -->
+							</div>
+							<!-- edit form, saved as change -->
+							<div ng-show="editMode == true">
+								<form name="editForm" class="taskForm editTaskForm" id="form{{task.id}}">
+									<label>Title<input class="styleInput" ng-model="task.title" type="text" name="taskTitle" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }"></label>
+									<!-- need to add ng-model-options before stopping -->
+									<label>Bucket<!-- <input ng-model="task.board" type="text"> -->
+									<select name="taskBoard" id="" ng-model="task.board" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }">
+										<option value="" hidden />
+											<option value="{{board.name}}" ng-repeat="board in allBoards track by board.name" ng-selected="board.name == task.board">{{board.name}}</option>
+										</select>
+									</label>
+									<label>Description<textarea name="taskBody" ng-model="task.body" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }"></textarea></label>
+									<span class="emptyHint emptyHintNewTask">Task body cannot be empty</span>
+									<label>Marks
+										<div class="mark-group grid-block">
+											<label class="colorMark"><input type="radio" name="taskColor" value="" id="colorGrey" ng-model="task.color" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }" ><span class="colorGrey"></span>
+										</label>
+										<label class="colorMark">
+											<input type="radio" name="taskColor" value="primary" id="colorLightBlue" ng-model="task.color" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }"><span class="colorLightBlue"></span>
+										</label>
+										<label class="colorMark">
+											<input type="radio" name="taskColor" value="secondary" id="colorDarkBlue" ng-model="task.color" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }"><span class="colorDarkBlue"></span>
+										</label>
+										<label class="colorMark">
+											<input type="radio" name="taskColor" value="success" id="colorGreen" ng-model="task.color" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }"><span class="colorGreen"></span>
+										</label>
+										<label class="colorMark">
+											<input type="radio" name="taskColor" value="alert" id="colorPurple" ng-model="task.color" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }"><span class="colorPurple"></span>
+										</label>
+										<label class="colorMark">
+											<input type="radio" name="taskColor" value="warning" id="colorWarning" ng-model="task.color" ng-model-options="{ updateOn: 'blur' ,debounce:{'blur':myDebounce} }"><span class="colorRed"></span>
+										</label>
+									</div>
+								</label>
+								<a ng-show="task.status=='incomplete'" ng-click=" SetTaskStatus(task.id,'complete'); editMode = false" class="traskTaskBtn float-left" alt="Trash task"><img src="../assets/img/trash-task.png" alt=""></a>
+								<a ng-show="task.status=='incomplete'" href="#" class="edit-button-right" ng-class="[task.color]" ng-click="editMode = false; UpdateTask(task.id,task.title,task.body,task.board,task.color);" >SAVE</a>
+							</form>
+							<div class="clearfix"></div>
+							</div>
+						</div>
+					<!-- end card section -->
+					</div>
+				<!--end edit taskform-->
+				</div><!--  end task card repeat -->
+			</div> <!-- end body-card -->
+			<zf-notification-set id="main-notifications" position="bottom-right"></zf-notification-set>
+	</div> <!-- end grid content-->
+</div> <!-- end main block-->

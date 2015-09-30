@@ -1,0 +1,1 @@
+var foundationRoutes = [{"name":"mobile","url":"/mobile","animationIn":"fadeIn","path":"templates/mobile.html"},{"name":"home","url":"/","animationIn":"fadeIn","controller":"TasksController","path":"templates/home.html"}]; 
