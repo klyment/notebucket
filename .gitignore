@@ -1,0 +1,8 @@
+*.DS_Store
+*.coffee
+npm-debug.log
+.sass-cache 
+bower_components
+node_modules
+*.7z
+*.zip
